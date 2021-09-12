@@ -34,18 +34,10 @@ app.get("/", (req, res) => {
     res.sendFile(path.join(_dirname, "/public/index.html"))
 });
 
-// app.get("/notes", (req, res) => {
-//     res.sendfile(path.join(_dirname, "/public/notes.html"));
-// });
-
 app.get("/api/db", (req, res) => { 
     res.json(noteData);
     console.info(`Request recieved`);
 });
-
-// app.get("*", (req, res) =>
-//   res.sendFile(path.join(__dirname, 'public/pages/404.html'))
-// );
 
 app.post("/api/db", (req, res) => {
     console.info(`${req.method} request was received`)
