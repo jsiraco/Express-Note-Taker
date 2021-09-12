@@ -34,6 +34,10 @@ app.get("/", (req, res) => {
     res.sendFile(path.join(_dirname, "/public/index.html"))
 });
 
+app.get("/notes", (req, res) => {
+    res.sendFile(path.join(_dirname, "/public/notes.html"))
+});
+
 app.get("/api/db", (req, res) => { 
     res.json(noteData);
     console.info(`Request recieved`);
