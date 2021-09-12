@@ -33,40 +33,32 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-// app.get("/", (req, res) => {
-//   res.sendFile(path.join(__dirname, "/public/index.html"))
-// });
-
-// app.get("/notes", (req, res) => {
-//   res.sendFile(path.join(__dirname, "/public/notes.html"))
-// });
-
 app.get("/", (req, res) => res.render("/public/index"));
 
 app.get("/notes", (req, res) => res.render("/public/notes"));
 
-// app.get("/api/db", (req, res) => {
-//   res.json(noteData);
-//   console.info(`Request recieved`);
-// });
+app.get("/api/db", (req, res) => {
+  res.json(noteData);
+  console.info(`Request recieved`);
+});
 
-// app.post("/api/db", (req, res) => {
-//   console.info(`${req.method} request was received`)
+app.post("/api/db", (req, res) => {
+  console.info(`${req.method} request was received`)
 
-//   const { title, text } = req.body;
+  const { title, text } = req.body;
 
-//   if (req.body) {
-//     const newNote = {
-//       title,
-//       text,
-//     };
+  if (req.body) {
+    const newNote = {
+      title,
+      text,
+    };
 
-//     readAndAppend(newNote, "./db/db.json");
-//     res.json("Note added successfully");
-//   } else {
-//     res.error("Error adding note");
-//   }
-// });
+    readAndAppend(newNote, "./db/db.json");
+    res.json("Note added successfully");
+  } else {
+    res.error("Error adding note");
+  }
+});
 
 app.listen(PORT, () =>
   console.log(`App listening at http://localhost:${PORT} 🚀`)
