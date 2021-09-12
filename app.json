@@ -1,0 +1,7 @@
+{
+    "name": "Start on Heroku: Node.js",
+    "description": "A notetaker Node.js app using Heroku",
+    "repository": "https://github.com/jsiraco/Express_Note_Taker.git",
+    "keywords": ["node", "express", "heroku"]
+  }
+  

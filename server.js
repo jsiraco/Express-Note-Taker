@@ -23,7 +23,7 @@ const readAndAppend = (content, file) => {
 
 
 const app = express();
-const PORT = process.env.port || 3001;
+const PORT = process.env.port || 5000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
