@@ -4,11 +4,7 @@ const uuid = require("./helpers/uuid");
 const fs = require("fs");
 const util = require("util");
 
-const noteData = require("./db/db.json");
-const { title } = require("process");
-
-const readFromFile = util.promisify(fs.readFile);
-
+//Reads from a file and then appends it
 const readAndAppend = (content, file) => {
   fs.readFile(file, 'utf8', (err, data) => {
     if (err) {
@@ -21,11 +17,13 @@ const readAndAppend = (content, file) => {
   });
 };
 
-const writeToFile = (destination, content) =>
-  fs.writeFile(destination, JSON.stringify(content, null, 4), (err) =>
-    err ? console.error(err) : console.info(`\nData written to ${destination}`)
+//Writes to a file
+const writeToFile = (location, content) => 
+  fs.writeFile(location, JSON.stringify(content, null, 4), (err) =>
+    err ? console.error(err) : console.info(`Data saved to ${location}`)
   );
 
+//Sets PORT
 const PORT = process.env.PORT || 3001;
 
 //Express & middleware
@@ -42,7 +40,14 @@ app.get("/notes", (req, res) => res.render("/public/notes"));
 
 //Route to get note data
 app.get("/api/db", (req, res) => {
-  res.json(noteData);
+  fs.readFile("./db/db.json", "utf8", (err, data) => {
+    if (err) {
+      console.error(err);
+    } else {
+      res.json(JSON.parse(data));
+    }
+  })
+  //res.json(noteData);
   console.info(`Request recieved`);
 });
 
