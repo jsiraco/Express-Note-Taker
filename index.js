@@ -1,8 +1,8 @@
+//Globals
 const express = require("express");
 const path = require("path");
 const uuid = require("./helpers/uuid");
 const fs = require("fs");
-const util = require("util");
 
 //Reads from a file and then appends it
 const readAndAppend = (content, file) => {
@@ -18,7 +18,7 @@ const readAndAppend = (content, file) => {
 };
 
 //Writes to a file
-const writeToFile = (location, content) => 
+const writeToFile = (location, content) =>
   fs.writeFile(location, JSON.stringify(content, null, 4), (err) =>
     err ? console.error(err) : console.info(`Data saved to ${location}`)
   );
@@ -39,7 +39,7 @@ app.get("/", (req, res) => res.render("/public/index"));
 app.get("/notes", (req, res) => res.render("/public/notes"));
 
 //Route to get note data
-app.get("/api/db", (req, res) => {
+app.get("/api/notes", (req, res) => {
   fs.readFile("./db/db.json", "utf8", (err, data) => {
     if (err) {
       console.error(err);
@@ -52,7 +52,7 @@ app.get("/api/db", (req, res) => {
 });
 
 //Route to post note data
-app.post("/api/db", (req, res) => {
+app.post("/api/notes", (req, res) => {
   console.info(`${req.method} request was received`);
 
   const { title, text } = req.body;
@@ -71,19 +71,26 @@ app.post("/api/db", (req, res) => {
   }
 });
 
-//Route to delete notes
-app.delete("/api/db/:id", (req, res) => {
+//Route to delete notes, reads notes upon completion
+app.delete("/api/notes/:id", (req, res) => {
   console.info(`${req.method} request was received`);
-  // const noteId = req.params.id;
-  // readFromFile(noteData)
-  //   .then((data) => JSON.parse(data))
-  //   .then((json) => {
-  //     const result = json.filter((title) => title.id !== noteId);
-
-  //     writeToFile(noteData, result);
-
-  //     res.json(`Item ${noteId} is deleted`);
-  //   });
+  const noteId = req.params.id;
+  fs.readFile("./db/db.json", "utf8", (err, data) => {
+    if (err) {
+      console.error(err);
+    } else {
+      let notes = JSON.parse(data);
+      const newNotes = notes.filter((note) => note.id !== noteId);
+      writeToFile("./db/db.json", newNotes);
+      fs.readFile("./db/db.json", "utf8", (err, data) => {
+        if (err) {
+          console.error(err);
+        } else {
+          res.json(JSON.parse(data));
+        }
+      })
+    }
+  })
 });
 
 //App listening at PORT 
