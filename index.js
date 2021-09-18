@@ -33,10 +33,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 //Route for homepage
-app.get("/", (req, res) => res.render("/public/index"));
+app.get("/", (req, res) => res.render("/public/index.html"));
 
 //Route for notes
-app.get("/notes", (req, res) => res.render("/public/notes"));
+app.get("/notes", (req, res) => res.render("/public/notes.html"));
+
+//Wildcard route
+app.get("*", (req, res) => res.render("/public/index.html"));
 
 //Route to get note data
 app.get("/api/notes", (req, res) => {
