@@ -33,10 +33,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 //Route for homepage
-app.get("/", (req, res) => res.render("/public/index"));
+app.get("/", (req, res) => res.sendFile(path.join(__dirname, "/public/index")));
 
 //Route for notes
-app.get("/notes", (req, res) => res.render("/public/notes"));
+app.get("/notes", (req, res) => res.sendFile(path.join(__dirname, "/public/notes")));
 
 //Route to get note data
 app.get("/api/notes", (req, res) => {
