@@ -30,13 +30,17 @@ const PORT = process.env.PORT || 3001;
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public');
+
 
 //Route for homepage
-app.get("/", (req, res) => res.sendFile(path.join(__dirname, "/public/index")));
+app.get("/", (req, res) => res.render("/public/index.html"));
 
 //Route for notes
-app.get("/notes", (req, res) => res.sendFile(path.join(__dirname, "/public/notes")));
+app.get("/notes", (req, res) => res.render("/public/notes.html"));
+
+//Wildcard route
+app.get("*", (req, res) => res.render("/public/index.html"));
 
 //Route to get note data
 app.get("/api/notes", (req, res) => {
@@ -97,3 +101,9 @@ app.delete("/api/notes/:id", (req, res) => {
 app.listen(PORT, () =>
   console.log(`App listening at http://localhost:${PORT} 🚀`)
 );
+
+//Route for homepage
+app.get("/", (req, res) => res.sendFile(path.join(__dirname, "/public/index")));
+
+//Route for notes
+app.get("/notes", (req, res) => res.sendFile(path.join(__dirname, "/public/notes")));
